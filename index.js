@@ -39,10 +39,6 @@ export default class QRCodeScanner extends Component {
     containerStyle: PropTypes.any,
     cameraStyle: PropTypes.any,
     markerStyle: PropTypes.any,
-    topViewStyle: PropTypes.any,
-    bottomViewStyle: PropTypes.any,
-    topContent: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-    bottomContent: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     notAuthorizedView: PropTypes.element,
     permissionDialogTitle: PropTypes.string,
     permissionDialogMessage: PropTypes.string,
@@ -187,20 +183,6 @@ export default class QRCodeScanner extends Component {
     }
   }
 
-  _renderTopContent() {
-    if (this.props.topContent) {
-      return this.props.topContent;
-    }
-    return null;
-  }
-
-  _renderBottomContent() {
-    if (this.props.bottomContent) {
-      return this.props.bottomContent;
-    }
-    return null;
-  }
-
   _renderCameraMarker() {
     if (this.props.showMarker) {
       if (this.props.customMarker) {
@@ -253,6 +235,7 @@ export default class QRCodeScanner extends Component {
         return (
           <Animated.View
             style={{
+              flex: 1,
               opacity: this.state.fadeInOpacity,
               backgroundColor: 'transparent',
               height: styles.camera.height
@@ -277,13 +260,7 @@ export default class QRCodeScanner extends Component {
   render() {
     return (
       <View style={[styles.mainContainer, this.props.containerStyle]}>
-        <View style={[styles.infoView, this.props.topViewStyle]}>
-          {this._renderTopContent()}
-        </View>
         {this._renderCamera()}
-        <View style={[styles.infoView, this.props.bottomViewStyle]}>
-          {this._renderBottomContent()}
-        </View>
       </View>
     );
   }
@@ -293,20 +270,12 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1
   },
-  infoView: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: Dimensions.get('window').width
-  },
 
   camera: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    height: Dimensions.get('window').width,
-    width: Dimensions.get('window').width
+    backgroundColor: 'transparent'
   },
 
   rectangleContainer: {
